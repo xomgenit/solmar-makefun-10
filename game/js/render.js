@@ -226,6 +226,15 @@ function drawPlayer(ctx, game) {
 
 export function drawWorld(game, ctx, cam, vw, vh) {
   const p = game.player;
+  // B3 fix (2026-11-21): the camera was never applied — game.cam was
+  // computed every frame but no translate ever ran, so the canvas always
+  // showed world (0..vw, 0..vh) and the player was invisible outside the
+  // top-left corner. All world drawing below is in world coordinates, so
+  // translate by -cam here (and restore at the end). This also repaints
+  // the full viewport every frame, which stops peds leaving permanent
+  // trails on road strips that were never repainted.
+  ctx.save();
+  ctx.translate(-cam.x, -cam.y);
   drawGround(ctx, game.city, cam, vw, vh);
   drawRoads(ctx, cam, vw, vh);
   drawPier(ctx, cam, vw, vh);
@@ -255,4 +264,5 @@ export function drawWorld(game, ctx, cam, vw, vh) {
   }
   // Particles, tracers and floating text on top of everything.
   if (game.effects) game.effects.draw(ctx);
+  ctx.restore();
 }

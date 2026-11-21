@@ -28,6 +28,7 @@ export function saveGame(game) {
     car: p.car
       ? {
           model: p.car.model,
+          color: p.car.color || null,
           x: Math.round(p.car.x),
           y: Math.round(p.car.y),
           angle: p.car.angle,

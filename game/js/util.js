@@ -98,30 +98,32 @@ export function pushCircleOutOfRect(x, y, r, rect) {
 }
 
 // Does the segment (x1,y1)-(x2,y2) cross any rect in `rects`? Used for
-// line-of-sight checks (shooting, police vision).
+// line-of-sight checks (shooting, police vision). Liang–Barsky slab test:
+// for each axis the segment enters the slab at t_enter and leaves at
+// t_exit; it crosses the rect only when the enter/exit intervals overlap.
 export function segmentHitsRects(x1, y1, x2, y2, rects) {
+  const dx = x2 - x1;
+  const dy = y2 - y1;
   for (const r of rects) {
-    // Slab test against the rect, expanded by nothing (a wall blocks sight).
-    const dx = x2 - x1;
-    const dy = y2 - y1;
     let t0 = 0;
     let t1 = 1;
     let ok = true;
+    // p < 0 faces are the entering slabs, p > 0 the exiting ones.
     const slabs = [
-      [dx, x1 - r.x],
-      [-dx, r.x + r.w - x1],
-      [dy, y1 - r.y],
-      [-dy, r.y + r.h - y1],
+      [-dx, x1 - r.x],
+      [dx, r.x + r.w - x1],
+      [-dy, y1 - r.y],
+      [dy, r.y + r.h - y1],
     ];
-    for (const [d, n] of slabs) {
-      if (Math.abs(d) < 1e-9) {
-        if (n < 0) {
+    for (const [p, q] of slabs) {
+      if (Math.abs(p) < 1e-9) {
+        if (q < 0) {
           ok = false;
           break;
         }
       } else {
-        const t = n / d;
-        if (d < 0) {
+        const t = q / p;
+        if (p < 0) {
           if (t > t1) {
             ok = false;
             break;

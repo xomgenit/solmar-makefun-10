@@ -25,6 +25,7 @@ export function createCar(x, y, angle, model, role = 'traffic') {
     x, y, angle,
     vx: 0, vy: 0,
     model, role,
+    color: null, // paint override (null = model default); the gold prize car sets this
     health: 100,
     hitCd: 0,
     wrecked: false,
@@ -268,7 +269,7 @@ export function drawCar(ctx, car) {
   ctx.fillStyle = 'rgba(0,0,0,0.30)';
   ctx.fillRect(-halfL + 2, -halfW + 2, m.len, m.wid);
   // Body.
-  ctx.fillStyle = car.wrecked ? '#3a3a3a' : m.color;
+  ctx.fillStyle = car.wrecked ? '#3a3a3a' : car.color || m.color;
   ctx.beginPath();
   ctx.roundRect(-halfL, -halfW, m.len, m.wid, 7);
   ctx.fill();

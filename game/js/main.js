@@ -120,7 +120,7 @@ function resetGame(seed) {
   game.cam.x = clamp(game.player.x - canvas.width / 2, 0, Math.max(0, WORLD - canvas.width));
   game.cam.y = clamp(game.player.y - canvas.height / 2, 0, Math.max(0, WORLD - canvas.height));
 
-  game.missions.start('free-roam');
+  game.missions.start('first-wheels');
 }
 
 function startNewGame() {
@@ -149,6 +149,7 @@ function continueGame() {
   if (data.car) {
     const car = createCar(data.car.x, data.car.y, data.car.angle, data.car.model, 'player');
     car.health = data.car.health;
+    if (data.car.color) car.color = data.car.color;
     game.cars.push(car);
     p.car = car;
   }

@@ -152,6 +152,26 @@ function drawZoneLabels(ctx, cam, vw, vh) {
   }
 }
 
+function drawStashes(ctx, game, cam, vw, vh) {
+  const stashes = game.missions ? game.missions.stashes : null;
+  if (!stashes) return;
+  for (const s of stashes) {
+    if (s.taken) continue;
+    if (s.x < cam.x - 40 || s.x > cam.x + vw + 40 || s.y < cam.y - 40 || s.y > cam.y + vh + 40) continue;
+    // Faint pulsing green glint — a hidden stash is waiting here.
+    const pulse = 0.45 + Math.sin(game.time * 3 + s.x) * 0.25;
+    ctx.strokeStyle = `rgba(124, 242, 154, ${pulse})`;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, 9 + Math.sin(game.time * 3) * 2, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.fillStyle = `rgba(124, 242, 154, ${pulse})`;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
 function drawBeacon(ctx, game) {
   if (!game.missionMarker) return;
   const m = game.missionMarker;
@@ -213,6 +233,7 @@ export function drawWorld(game, ctx, cam, vw, vh) {
   drawPalms(ctx, game.city, cam, vw, vh);
   drawZoneLabels(ctx, cam, vw, vh);
   drawBeacon(ctx, game);
+  drawStashes(ctx, game, cam, vw, vh);
   // Skid marks under the actors; particles/tracers/floaters on top.
   if (game.effects) game.effects.drawSkids(ctx);
   for (const car of game.cars) {

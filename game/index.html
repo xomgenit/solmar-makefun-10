@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOLMAR — Streets of the Sun</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<canvas id="game" aria-label="SOLMAR — Streets of the Sun: a 2D top-down open-world crime game"></canvas>
+<p id="status" role="status" aria-live="polite"></p>
+
+<div id="hud" style="display:none">
+  <div id="top-left">
+    <div id="health-bar"><div id="health-fill"></div><span id="health-text">100</span></div>
+    <div id="cash-row"><span id="cash">$200</span><span id="stars">☆☆☆☆☆</span></div>
+    <div id="zone">DOWNTOWN</div>
+  </div>
+  <div id="objective-panel">
+    <div id="objective-title">FREE ROAM</div>
+    <div id="objective-text">Visit the Solmar Pier.</div>
+  </div>
+  <div id="hint"></div>
+  <div id="banner" style="display:none"><div id="banner-title"></div><div id="banner-sub"></div></div>
+  <div id="speedometer" style="display:none">
+    <span id="speed">0</span><span id="speed-unit">km/h</span>
+    <div id="car-health">CAR 100</div>
+  </div>
+  <canvas id="minimap" width="150" height="150"></canvas>
+</div>
+
+<div id="title-screen" class="overlay">
+  <h1>SOLMAR</h1>
+  <h2>STREETS OF THE SUN</h2>
+  <p class="tagline">Solmar Bay is yours, Dice. Vera is waiting — and the Harbor Kings are watching.</p>
+  <button id="new-game-btn">NEW GAME</button>
+  <button id="continue-btn" style="display:none">CONTINUE</button>
+  <button id="howto-btn">HOW TO PLAY</button>
+  <div id="howto" style="display:none">
+    <p><b>WASD / arrows</b> — move &amp; drive · <b>SHIFT</b> — sprint · <b>Mouse</b> — aim · <b>Click</b> — shoot</p>
+    <p><b>E</b> — steal / exit car · <b>SPACE</b> — handbrake · <b>F</b> — heal at the hospital ($100) / respray at the auto spa ($150, clears wanted)</p>
+    <p><b>ESC</b> — pause. Steal cars, dodge the SBPD, visit the Solmar Pier for a $50 bonus.</p>
+  </div>
+  <p class="foot">An original game. Not affiliated with Rockstar Games or GTA.</p>
+</div>
+
+<div id="pause-screen" class="overlay" style="display:none">
+  <h1>PAUSED</h1>
+  <button id="resume-btn">RESUME</button>
+  <button id="save-btn">SAVE GAME</button>
+  <button id="restart-mission-btn">RESTART MISSION</button>
+  <button id="quit-btn">QUIT TO TITLE</button>
+</div>
+
+<div id="wasted-screen" class="overlay" style="display:none">
+  <h1 class="red">WASTED</h1>
+  <p>Danny Marlow got taken down. Solmar General patched him up.</p>
+  <p id="wasted-fine"></p>
+  <button id="respawn-btn">RESPAWN — $100</button>
+</div>
+
+<div id="busted-screen" class="overlay" style="display:none">
+  <h1 class="blue">BUSTED</h1>
+  <p>The SBPD caught up with Dice. Bail gets him out.</p>
+  <p id="busted-fine"></p>
+  <button id="bail-btn">PAY BAIL — $150</button>
+</div>
+
+<script type="module" src="./js/main.js"></script>
+</body>
+</html>
